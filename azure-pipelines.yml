@@ -16,13 +16,6 @@ variables:
   WebAppName: 'AspNetCoreDemo'
 
 steps:
-- task: AzureRMWebAppDeployment@4
-  displayName: Azure App Service 
-  inputs:
-    appType: webApp
-    ConnectedServiceName: $(AzureSubscriptionEndpoint)
-    WebAppName: $(WebAppName)
-
 
 # Optional: 'dotnet restore' is not necessary because the 'dotnet build' command executes restore as well.
 - task: DotNetCoreCLI@2
