@@ -1,0 +1,17 @@
+[
+  {
+    "id": "2d1781af-3a4c-4d7c-bd0c-e34b19da4e66",
+    "topic": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "subject": "MyCustomEventSubject",
+    "data": {
+      "name": "John Doe",
+      "age": 28,
+      "weight": 72,
+      "height": 178
+    },
+    "eventType": "MyCustomEventType",
+    "eventTime": "2018-07-15T22:12:19.4556811Z",
+    "metadataVersion": "1",
+    "dataVersion": "1"
+  }
+]

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AspNetCoreWebApiTest - Copy\**" />
+    <Compile Remove="AspNetCoreWebApiTest\**" />
+    <Compile Remove="UnitTest\**" />
+    <Content Remove="AspNetCoreWebApiTest - Copy\**" />
+    <Content Remove="AspNetCoreWebApiTest\**" />
+    <Content Remove="UnitTest\**" />
+    <EmbeddedResource Remove="AspNetCoreWebApiTest - Copy\**" />
+    <EmbeddedResource Remove="AspNetCoreWebApiTest\**" />
+    <EmbeddedResource Remove="UnitTest\**" />
+    <None Remove="AspNetCoreWebApiTest - Copy\**" />
+    <None Remove="AspNetCoreWebApiTest\**" />
+    <None Remove="UnitTest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+
+</Project>
