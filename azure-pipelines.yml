@@ -19,7 +19,7 @@ stages:
   displayName: 'Build the integration environment resource group'
   dependsOn: build
   jobs:
-  - template: AzureAppServiceInfra/create-resource-group.yml
+  - template: /AzureAppServiceInfra/create-resource-group.yml
     parameters:
       name: create_infrastructure
       displayName: 'First step in building the integration infrastructure'
@@ -72,7 +72,7 @@ stages:
   displayName: 'Build the test environment'
   dependsOn: deploy_to_integration
   jobs:
-  - template: AzureAppServiceInfra/create-resource-group.yml
+  - template: /AzureAppServiceInfra/create-resource-group.yml
     parameters:
       name: create_infrastructure
       displayName: 'First step in building the test infrastructure'
@@ -114,7 +114,7 @@ stages:
   displayName: 'Build the demo environment'
   dependsOn: deploy_to_test
   jobs:
-  - template: AzureAppServiceInfra/create-resource-group.yml
+  - template: /AzureAppServiceInfra/create-resource-group.yml
     parameters:
       name: create_infrastructure
       displayName: 'First step in building the demo infrastructure'
