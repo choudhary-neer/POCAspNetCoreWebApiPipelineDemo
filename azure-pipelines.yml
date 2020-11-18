@@ -49,7 +49,7 @@ steps:
 - task: AzureWebApp@1
   displayName: 'Deploy Azure Web App'
   inputs:
-    azureSubscription: '6ce3b01e-e267-47f3-9997-22aee3fbf335'
+    azureSubscription: $(AzureSubscriptionEndpoint)
     appName: $(WebAppName)
     appType: 'webApp'
     package: $(Build.ArtifactStagingDirectory)/**/*.zip
