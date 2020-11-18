@@ -17,6 +17,16 @@ variables:
 
 steps:
 
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription:  $(AzureSubscriptionEndpoint)
+    appType: 'webApp'
+    WebAppName: $(WebAppName)
+    packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
+    enableCustomDeployment: true
+    DeploymentType: 'webDeploy'
+
 # Optional: 'dotnet restore' is not necessary because the 'dotnet build' command executes restore as well.
 - task: DotNetCoreCLI@2
   displayName: 'Restore dependencies'
