@@ -12,7 +12,7 @@ pool:
 variables:
   BuildConfiguration: 'Release'
   SolutionPath: 'AspNetCoreWebApiPipelineDemo.sln'
-  azureSubscriptionEndpoint: Contoso
+  azureSubscriptionEndpoint: neerajc-service-conn
   WebAppName: 'AspNetCoreDemo'
 
 steps:
