@@ -17,6 +17,19 @@ variables:
 
 steps:
 
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'neerajc-service-conn'
+    subscriptionId: '6ce3b01e-e267-47f3-9997-22aee3fbf335'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'neerajc-rg'
+    location: 'West US'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://raw.githubusercontent.com/choudhary-neer/POCAspNetCoreWebApiPipelineDemo/master/POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/WebSite.json'
+    overrideParameters: '-hostingPlanName neerajc-hostingplan'
+    deploymentMode: 'Incremental'
+
 # Optional: 'dotnet restore' is not necessary because the 'dotnet build' command executes restore as well.
 - task: DotNetCoreCLI@2
   displayName: 'Restore dependencies'
