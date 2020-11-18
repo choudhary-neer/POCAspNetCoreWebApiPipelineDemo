@@ -18,13 +18,12 @@ variables:
 steps:
 
 - task: AzureRmWebAppDeployment@4
+  displayName: 'Create Infra'
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription:  $(AzureSubscriptionEndpoint)
     appType: 'webApp'
     WebAppName: $(WebAppName)
-    packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
-    enableCustomDeployment: true
     DeploymentType: 'webDeploy'
 
 # Optional: 'dotnet restore' is not necessary because the 'dotnet build' command executes restore as well.
