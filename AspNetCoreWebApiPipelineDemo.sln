@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreWebApiPipelineDem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreWebApiPipelineDemoTesting", "POCAspNetCoreWebApiPipeline\AspNetCoreWebApiPipelineDemoTesting\AspNetCoreWebApiPipelineDemoTesting.csproj", "{CA77B770-BBA3-4C8C-8451-6925FAB7AB63}"
 EndProject
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "AzureAppServiceInfra", "AzureAppServiceInfra\AzureAppServiceInfra.deployproj", "{098F78E5-5585-4F61-AD4C-E084BADF13B5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{CA77B770-BBA3-4C8C-8451-6925FAB7AB63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA77B770-BBA3-4C8C-8451-6925FAB7AB63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA77B770-BBA3-4C8C-8451-6925FAB7AB63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{098F78E5-5585-4F61-AD4C-E084BADF13B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{098F78E5-5585-4F61-AD4C-E084BADF13B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{098F78E5-5585-4F61-AD4C-E084BADF13B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{098F78E5-5585-4F61-AD4C-E084BADF13B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
