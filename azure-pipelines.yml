@@ -28,7 +28,7 @@ stages:
       subscription: $(subscription)
 
 - stage: deploy_app_service_to_integration
-  displayName: 'Deploy the app service to the integration environment'
+  displayName: 'Create the app service to the integration environment'
   dependsOn: build_integration
   jobs:
   - job: deploy_app_service_to_integration
@@ -40,7 +40,7 @@ stages:
         azureSubscription: '$(subscription)'
         action: 'Create Or Update Resource Group'
         resourceGroupName: 'integration-rg'
-        location: 'US South'
+        location: 'West US'
         templateLocation: 'URL of the file'
         csmFileLink: 'https://raw.githubusercontent.com/choudhary-neer/POCAspNetCoreWebApiPipelineDemo/master/POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/WebSite.json'
         overrideParameters: '-hostingPlanName integration-webfarm'
@@ -81,7 +81,7 @@ stages:
       subscription: $(subscription)
 
 - stage: deploy_app_service_to_test
-  displayName: 'Deploy the app service to the test environment'
+  displayName: 'Create the app service to the test environment'
   dependsOn: build_test
   jobs:
   - job: deploy_app_service_to_test
@@ -93,7 +93,7 @@ stages:
         azureSubscription: '$(subscription)'
         action: 'Create Or Update Resource Group'
         resourceGroupName: 'test-rg'
-        location: 'US South'
+        location: 'West US'
         templateLocation: 'URL of the file'
         csmFileLink: 'https://raw.githubusercontent.com/choudhary-neer/POCAspNetCoreWebApiPipelineDemo/master/POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/WebSite.json'
         overrideParameters: '-hostingPlanName test-webfarm'
