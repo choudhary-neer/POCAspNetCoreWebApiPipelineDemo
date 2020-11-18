@@ -52,6 +52,6 @@ steps:
   displayName: 'Publish Build artifacts'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+    ArtifactName: 'AspNetCoreDemoArtifact'
     publishLocation: 'Container'
 
