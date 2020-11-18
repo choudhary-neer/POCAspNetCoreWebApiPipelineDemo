@@ -12,8 +12,18 @@ pool:
 variables:
   BuildConfiguration: 'Release'
   SolutionPath: 'AspNetCoreWebApiPipelineDemo.sln'
+  azureSubscriptionEndpoint: Contoso
+  WebAppName: 'AspNetCoreDemo'
 
 steps:
+- task: AzureRMWebAppDeployment@4
+  displayName: Azure App Service 
+  inputs:
+    appType: webApp
+    ConnectedServiceName: $(azureSubscriptionEndpoint)
+    WebAppName: $(WebAppName)
+
+
 # Optional: 'dotnet restore' is not necessary because the 'dotnet build' command executes restore as well.
 - task: DotNetCoreCLI@2
   displayName: 'Restore dependencies'
@@ -40,7 +50,7 @@ steps:
   displayName: 'Deploy Azure Web App'
   inputs:
     azureSubscription: '6ce3b01e-e267-47f3-9997-22aee3fbf335'
-    appName: 'AspNetCoreApiDemo'
+    appName: $(WebAppName)
     appType: 'webApp'
     package: $(Build.ArtifactStagingDirectory)/**/*.zip
 
