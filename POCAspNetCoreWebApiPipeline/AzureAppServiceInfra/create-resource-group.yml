@@ -15,4 +15,4 @@ jobs:
     inputs:
       azureSubscription: ${{ parameters.subscription }}
       scriptLocation: 'inlineScript'
-      inlineScript: az group create -n ${{ parameters.resourceGroupName }}-rg -l ussouth
+      inlineScript: az group create -n ${{ parameters.resourceGroupName }}-rg -l westus
