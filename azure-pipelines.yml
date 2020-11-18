@@ -11,7 +11,7 @@ pool:
 
 variables:
   BuildConfiguration: 'Release'
-  SolutionPath: 'POCAspNetCoreWebApiPipelineDemo/AspNetCoreWebApiPipelineDemo.sln'
+  SolutionPath: 'AspNetCoreWebApiPipelineDemo.sln'
 
 steps:
 # Optional: 'dotnet restore' is not necessary because the 'dotnet build' command executes restore as well.
