@@ -62,7 +62,7 @@ steps:
   displayName: 'Publish & Zip'
   inputs:
     command: publish
-#    publishWebProjects: False
+    publishWebProjects: True
     projects: $(SolutionPath)
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
@@ -81,4 +81,4 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'AspNetCoreDemoArtifact'
-    publishLocation: 'Container'
+   # publishLocation: 'Container'
