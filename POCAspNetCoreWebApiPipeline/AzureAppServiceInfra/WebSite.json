@@ -6,6 +6,10 @@
       "type": "string",
       "minLength": 1
     },
+    "siteName": {
+      "type": "string",
+      "minLength": 1
+    },
     "skuName": {
       "type": "string",
       "defaultValue": "F1",
@@ -37,7 +41,7 @@
     }
   },
   "variables": {
-    "webSiteName": "[concat('webSite', uniqueString(resourceGroup().id))]"
+    "webSiteName": "[parameters('siteName')]"
   },
   "resources": [
     {
