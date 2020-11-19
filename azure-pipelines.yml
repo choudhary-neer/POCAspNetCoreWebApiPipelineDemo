@@ -17,6 +17,12 @@ variables:
 
 steps:
 
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
+  inputs:
+    packageType: sdk
+    version: 2.2.x
+
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: 'Create Group and App Service Infra'
   inputs:
