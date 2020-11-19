@@ -17,11 +17,6 @@ variables:
 
 steps:
 
-#-task: UseDotNet@2
-# displayName: 'Use .NET Core sdk'
-# inputs:
-#   packageType: sdk
-#   version: 2.2.x
 
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: 'Create Group and App Service Infra'
@@ -57,6 +52,11 @@ steps:
     command: test
     projects: '**/*Test/*.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/TEST-*.xml'
+    testRunTitle: 'Publish Test Result'
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish & Zip'
