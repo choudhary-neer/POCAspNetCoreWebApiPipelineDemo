@@ -1,134 +1,82 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
 trigger:
 - master
 
+pool:
+  vmImage: 'windows-latest'
+
 variables:
-  subscription: 'neerajc-service-conn'
+  BuildConfiguration: 'Release'
+  SolutionPath: 'AspNetCoreWebApiPipelineDemo.sln'
+  AzureSubscriptionEndpoint: neerajc-service-conn
+  WebAppName: 'AspNetCoreDemo'
 
-stages:
-- stage: build
-  displayName: 'Build and test the website'
-  jobs:
-  - job: run_build
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - script: echo Build
-      displayName: 'First step in building the website skeleton'
+steps:
 
-- stage: build_integration
-  displayName: 'Build the integration environment resource group'
-  dependsOn: build
-  jobs:
-  - template: POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/create-resource-group.yml
-    parameters:
-      name: create_infrastructure
-      displayName: 'First step in building the integration infrastructure'
-      vmImage: 'windows-latest'
-      resourceGroupName: integration
-      subscription: $(subscription)
+- task: AzureResourceManagerTemplateDeployment@3
+  displayName: 'Create Group and App Service Infra'
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'neerajc-service-conn'
+    subscriptionId: '6ce3b01e-e267-47f3-9997-22aee3fbf335'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'neerajc-rg'
+    location: 'West US'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://raw.githubusercontent.com/choudhary-neer/POCAspNetCoreWebApiPipelineDemo/master/POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/WebSite.json'
+    overrideParameters: '-hostingPlanName neerajc-hostingplan'
+    deploymentMode: 'Incremental'
 
-- stage: deploy_app_service_to_integration
-  displayName: 'Create the app service to the integration environment'
-  dependsOn: build_integration
-  jobs:
-  - job: deploy_app_service_to_integration
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - task: AzureResourceGroupDeployment@2
-      inputs:
-        azureSubscription: '$(subscription)'
-        action: 'Create Or Update Resource Group'
-        resourceGroupName: 'integration-rg'
-        location: 'West US'
-        templateLocation: 'URL of the file'
-        csmFileLink: 'https://raw.githubusercontent.com/choudhary-neer/POCAspNetCoreWebApiPipelineDemo/master/POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/WebSite.json'
-        overrideParameters: '-hostingPlanName integration-webfarm'
-        deploymentMode: 'Incremental'
+- task: DotNetCoreInstaller@0
+  displayName: 'Set .Net core version'
+  inputs:
+    version: '3.1.0'
 
-- stage: deploy_to_integration
-  displayName: 'Deploy the website to the integration environment'
-  dependsOn: deploy_app_service_to_integration
-  jobs:
-  - job: deploy_artefacts_to_integration
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - script: echo Deploy Website to Integration
-      displayName: 'First step in deploying the website to integration'
+# Optional: 'dotnet restore' is not necessary because the 'dotnet build' command executes restore as well.
+- task: DotNetCoreCLI@2
+  displayName: 'Restore dependencies'
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
 
-- stage: run_system_quality_tests
-  displayName: 'Run the system quality tests'
-  dependsOn: deploy_to_integration
-  jobs:
-  - job: run_non_functional_tests
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - script: echo Run system quality tests
-      displayName: 'Running the system quality tests'
+- task: DotNetCoreCLI@2
+  displayName: 'Build web project'
+  inputs:
+    command: 'build'
+    projects: $(SolutionPath)
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Build Test project'
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 
-- stage: build_test
-  displayName: 'Build the test environment'
-  dependsOn: deploy_to_integration
-  jobs:
-  - template: POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/create-resource-group.yml
-    parameters:
-      name: create_infrastructure
-      displayName: 'First step in building the test infrastructure'
-      vmImage: 'windows-latest'
-      resourceGroupName: testing
-      subscription: $(subscription)
+- task: DotNetCoreCLI@2
+  displayName: 'Publish and zip'
+  inputs:
+    command: publish
+    publishWebProjects: False
+    projects: $(SolutionPath)
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
 
-- stage: deploy_app_service_to_test
-  displayName: 'Create the app service to the test environment'
-  dependsOn: build_test
-  jobs:
-  - job: deploy_app_service_to_test
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - task: AzureResourceGroupDeployment@2
-      inputs:
-        azureSubscription: '$(subscription)'
-        action: 'Create Or Update Resource Group'
-        resourceGroupName: 'test-rg'
-        location: 'West US'
-        templateLocation: 'URL of the file'
-        csmFileLink: 'https://raw.githubusercontent.com/choudhary-neer/POCAspNetCoreWebApiPipelineDemo/master/POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/WebSite.json'
-        overrideParameters: '-hostingPlanName test-webfarm'
-        deploymentMode: 'Incremental'
+- task: AzureWebApp@1
+  displayName: 'Deploy Azure Web App'
+  inputs:
+    azureSubscription: $(AzureSubscriptionEndpoint)
+    appName: $(WebAppName)
+    appType: 'webApp'
+    package: $(Build.ArtifactStagingDirectory)/**/*.zip
 
-- stage: deploy_to_test
-  displayName: 'Deploy the website to the test environment'
-  dependsOn: deploy_app_service_to_test
-  jobs:
-  - job: deploy_artefacts_to_test
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - script: echo Deploy Website to Test
-      displayName: 'First step in deploying the website to test'
-
-- stage: build_demo
-  displayName: 'Build the demo environment'
-  dependsOn: deploy_to_test
-  jobs:
-  - template: POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/create-resource-group.yml
-    parameters:
-      name: create_infrastructure
-      displayName: 'First step in building the demo infrastructure'
-      vmImage: 'windows-latest'
-      resourceGroupName: demonstration
-      subscription: $(subscription)
-
-- stage: deploy_to_demo
-  displayName: 'Deploy the website to the demo environment'
-  dependsOn: build_demo
-  jobs:
-  - job: deploy_artefacts_to_demo
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - script: echo Deploy Website to Demo
-      displayName: 'First step in deploying the website to demo'
+# Optional step if you want to deploy to some other system using a Release pipeline or inspect the package afterwards
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'AspNetCoreDemoArtifact'
+    publishLocation: 'Container'
