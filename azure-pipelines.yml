@@ -77,3 +77,11 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'AspNetCoreDemoArtifact'
    # publishLocation: 'Container'
+
+- task: DownloadBuildArtifacts@0
+  displayName: 'Download artifacts'
+  inputs:
+      buildType: 'current'
+      downloadType: 'single'
+      artifactName: 'AspNetCoreDemoArtifact'
+      downloadPath: '$(Build.ArtifactStagingDirectory)'
