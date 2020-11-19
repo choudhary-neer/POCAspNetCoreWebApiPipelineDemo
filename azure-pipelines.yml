@@ -13,7 +13,7 @@ variables:
   BuildConfiguration: 'Release'
   SolutionPath: 'AspNetCoreWebApiPipelineDemo.sln'
   AzureSubscriptionEndpoint: neerajc-service-conn
-  WebAppName: 'AspNetCoreDemo'
+  WebAppName: 'neerajc-website'
 
 steps:
 
@@ -34,7 +34,7 @@ steps:
     location: 'West US'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/choudhary-neer/POCAspNetCoreWebApiPipelineDemo/master/POCAspNetCoreWebApiPipeline/AzureAppServiceInfra/WebSite.json'
-    overrideParameters: '-hostingPlanName neerajc-hostingplan'
+    overrideParameters: '-hostingPlanName neerajc-hostingplan -siteName neerajc-website'
     deploymentMode: 'Incremental'
 
 
