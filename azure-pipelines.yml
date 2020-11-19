@@ -53,11 +53,6 @@ steps:
     projects: '**/*Test/*.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/TEST-*.xml'
-    testRunTitle: 'Publish Test Result'
-
 - task: DotNetCoreCLI@2
   displayName: 'Publish & Zip'
   inputs:
