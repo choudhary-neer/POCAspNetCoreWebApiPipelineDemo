@@ -17,12 +17,6 @@ variables:
 
 steps:
 
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .Net core version'
-  inputs:
-    version: '3.0.x'
-    packageType: runtime
-
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: 'Create Group and App Service Infra'
   inputs:
