@@ -17,6 +17,11 @@ variables:
 
 steps:
 
+- task: DotNetCoreInstaller@0
+  displayName: 'Set .Net core version'
+  inputs:
+    version: '3.*'
+
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: 'Create Group and App Service Infra'
   inputs:
@@ -31,10 +36,6 @@ steps:
     overrideParameters: '-hostingPlanName neerajc-hostingplan'
     deploymentMode: 'Incremental'
 
-- task: DotNetCoreInstaller@0
-  displayName: 'Set .Net core version'
-  inputs:
-    version: '3.1.0'
 
 # Optional: 'dotnet restore' is not necessary because the 'dotnet build' command executes restore as well.
 - task: DotNetCoreCLI@2
